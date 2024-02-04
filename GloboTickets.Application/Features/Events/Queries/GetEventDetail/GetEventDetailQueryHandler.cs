@@ -22,9 +22,13 @@ public class GetEventDetailQueryHandler : IRequestHandler<GetEventDetailQuery, E
     public async Task<EventDetailDto> Handle(GetEventDetailQuery request, 
         CancellationToken cancellationToken)
     {
-        var @event= await _eventRepository.GetByIdAsync(request.EventId);
+        Event? @event= await _eventRepository.GetByIdAsync(request.EventId);
+        if (@event == null)
+        {
+            return null;
+        }
         var eventDto = _mapper.Map<EventDetailDto>(@event);
-        var category = await _categoryRepository.GetByIdAsync(@event.CategoryId);
+        Category? category = await _categoryRepository.GetByIdAsync(@event.CategoryId);
         eventDto.Category = _mapper.Map<CategoryDto>(category);
         return eventDto;
     }
