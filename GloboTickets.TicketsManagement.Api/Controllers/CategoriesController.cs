@@ -15,6 +15,7 @@ public class CategoriesController : ControllerBase
     }
     [HttpGet("all", Name = "GetAllCategories")]
     [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesDefaultResponseType()]
     public async Task<ActionResult<List<CategoryDto>>> GetAllCategories()
     {
         var categories = await _mediator.Send(new GetCategoryListQuery());
